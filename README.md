@@ -9,12 +9,12 @@ A Handy Collection Library For Functional Programming in Java 7
 * To learn how to implement functional style collection library. 
 * Handling both of null and Optional is definately hell. I Need more null-friendly collection.
 * Java 8 is cool. But I need more simple, short cord then perfect compatibility and polite type naming.
-* Guava is great. But I feel guava code not easy to read.
+* Guava is great. But I feel guava code is not easy to read.
 * Kotlin is pretty. I like it. Groovy - simply I don't tried it. Anyway I have to use Java.
 
 ## Code with Cutefp
 
-Below is an example of cutefp code. If you feel this code "simple", cutefp will help you in future :-)
+Below is an example of cutefp code. If you feel this "simple", cutefp will help you in future :-)
 ```
     //
     // "User" class has 3 fields - firstName, lastName and city. "build" is an utility to build User instance
