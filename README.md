@@ -8,7 +8,7 @@ A Handy Collection Library For Functional Programming in Java 7
 * To introduce scala-like handy data manipulation to Java
 * To learn how to implement functional style collection library. 
 * Handling both of null and Optional is definately hell. I Need more null-friendly collection.
-* Java 8 is cool. But I need more simple, short cord then perfect compatibility and polite type naming.
+* Java 8 is cool. But I need more simple, shorter cord than perfect compatibility and polite type naming.
 * Guava is great. But I feel guava code is not easy to read.
 * Kotlin is pretty. I like it. Groovy - simply I don't tried it. Anyway I have to use Java.
 
