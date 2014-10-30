@@ -36,4 +36,4 @@ Below is an example of cutefp code. If you feel this code "simple", cutefp will 
 
 ## その他
 
-Cute の 由来は Guavaさんやscalaさんのように、正しい分かなり重い感のない「かわいくてしょうがない」ライブラリにしたかったから．
+Cute の 由来は Guavaさんやscalaさんのように、正しい分かなり重い感があるものではなく「コード書きやすくてかわいくてしょうがない」ライブラリにしたかったから．
