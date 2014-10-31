@@ -1,9 +1,9 @@
 package cutefp;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-import static cutefp.Cutes.fromArray;
 import static cutefp.Cutes.from;
+import static cutefp.Cutes.fromArray;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,11 +53,11 @@ public class CuteIterableTest {
 
 	@Test
 	public void simple_flatmap() {
-		final User[] users = new User[] { build("Steve","Jobs","MountainView"), build("Bill","Gates","Seatle") };
+		final CuteIterable<User> users = fromArray(build("Steve","Jobs","MountainView"), build("Bill","Gates","Seatle"));
 		final F<User,Iterable<String>> nameListGetter = new F<User,Iterable<String>>() { public Iterable<String> apply(User u) { return Arrays.asList(u.firstName, u.lastName); } };
 		final F<String,String> toUpper = new F<String,String>() { public String apply(String s) { return s.toUpperCase(); } };
 
-		List<String> names = fromArray(users).flatMap(nameListGetter).map(toUpper).toList();
+		List<String> names = users.flatMap(nameListGetter).map(toUpper).toList();
 
 		assertThat(names.size(), is(4));
 		assertThat(names.get(0), is("STEVE"));

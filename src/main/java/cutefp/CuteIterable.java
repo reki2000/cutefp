@@ -115,7 +115,7 @@ public class CuteIterable<A> implements Iterable<A> {
 
 	/**
 	 * returns a new itarable which contains flatten elements. source type must be sub-type of Iterable<Iterable<A>>
-	 * @param f
+	 * @param func
 	 * @return
 	 */
 	public <A> CuteIterable<A> flatten() {

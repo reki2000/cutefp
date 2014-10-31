@@ -1,11 +1,9 @@
 package cutefp;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-
-import cutefp.Opt;
 
 public class OptTest {
 	

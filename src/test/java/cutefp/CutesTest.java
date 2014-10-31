@@ -1,11 +1,11 @@
 package cutefp;
 
+import static cutefp.Cutes.eq;
 import static cutefp.Cutes.from;
 import static cutefp.Cutes.fromArray;
 import static cutefp.Cutes.getter;
-import static cutefp.Cutes.eq;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +13,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import cutefp.Cutes;
 import cutefp.CuteIterableTest.User;
 import cutefp.func.F;
 import cutefp.func.Predicate;
