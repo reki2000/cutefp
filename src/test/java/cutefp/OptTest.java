@@ -13,7 +13,7 @@ public class OptTest {
 		assertThat(opt.isSome(), is(true));
 		assertThat(opt.isNone(), is(false));
 		assertThat(opt.get(), is(1));
-		assertThat(opt.getOrElse(3), is(1));
+		assertThat(opt.orElse(3), is(1));
 	}
 
 	@Test
