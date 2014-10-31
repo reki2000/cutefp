@@ -1,23 +1,21 @@
 package cutefp;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cutefp.collector.CollectionCollector;
 import cutefp.func.F;
 import cutefp.func.F2;
 import cutefp.func.Predicate;
-import cutefp.impl.ConcatIterator;
-import cutefp.impl.FilterIterator;
-import cutefp.impl.FlatMapIterator;
-import cutefp.impl.FlattenIterator;
-import cutefp.impl.MapIterator;
+import cutefp.iterator.ConcatIterator;
+import cutefp.iterator.FilterIterator;
+import cutefp.iterator.FlatMapIterator;
+import cutefp.iterator.FlattenIterator;
+import cutefp.iterator.MapIterator;
 
 public class CuteIterable<A> implements Iterable<A> {
 	
@@ -39,56 +37,25 @@ public class CuteIterable<A> implements Iterable<A> {
 		}
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
 	public List<A> toList() {
-		List<A> l = new ArrayList<A>();
-		for (A item : this) {
-			l.add(item);
-		}
-		return Collections.unmodifiableList(l);
+		return CollectionCollector.<A>toList(this);
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public Set<A> toSet() {
-		Set<A> s = new HashSet<A>();
-		for (A item : this) {
-			s.add(item);
-		}
-		return Collections.unmodifiableSet(s);
+		return CollectionCollector.<A>toSet(this);
 	}
 
-	/**
-	 * Make a map with generated key and source value
-	 * @return
-	 */
 	public <B> Map<B,A> toMap(F<A,B> keyF) {
-		Map<B,A> m = new HashMap<B,A>();
-		for (A item : this) {
-			m.put(keyF.apply(item), item);
-		}
-		return Collections.unmodifiableMap(m);
+		return CollectionCollector.<A,B>toMap(this, keyF);
 	}
 	
-	
-	/**
-	 * Make a map with generated key and generated value
-	 * @return
-	 */
 	public <B,C> Map<B,C> toMap(F<A,B> keyF, F<A,C> valF) {
-		Map<B,C> m = new HashMap<B,C>();
-		for (A item : this) {
-			m.put(keyF.apply(item), valF.apply(item));
-		}
-		return Collections.unmodifiableMap(m);
+		return CollectionCollector.<A,B,C>toMap(this, keyF, valF);
 	}
 	
+	
 	/**
+	 * Make new iterable which is filtered with given predicate
 	 * @return
 	 */
 	public CuteIterable<A> filter(final Predicate<A> p) {
@@ -96,7 +63,7 @@ public class CuteIterable<A> implements Iterable<A> {
 	}
 	
 	/**
-	 * returns a new itarable which is mapped by f
+	 * Make new iterable which is mapped by f
 	 * @param f
 	 * @return
 	 */
@@ -105,7 +72,7 @@ public class CuteIterable<A> implements Iterable<A> {
 	}
 
 	/**
-	 * returns a new itarable which is flatten mapped by f
+	 * Make new iterable which is flatten mapped by f
 	 * @param f
 	 * @return
 	 */
@@ -114,7 +81,7 @@ public class CuteIterable<A> implements Iterable<A> {
 	}
 
 	/**
-	 * returns a new itarable which contains flatten elements. source type must be sub-type of Iterable<Iterable<A>>
+	 * Make new iterable which contains flatten elements. source type must be sub-type of Iterable<Iterable<A>>
 	 * @param func
 	 * @return
 	 */
@@ -123,7 +90,14 @@ public class CuteIterable<A> implements Iterable<A> {
 	}
 
 	/**
-	 * returns a new itarable which is reverse ordered
+	 * Make new iterable which is Concatinated with two iterables
+	 */
+	public CuteIterable<A> concat(Iterable<A> tail) {
+		return new CuteIterable<A>(new ConcatIterator<A>(iterator(), tail.iterator()));
+	}
+
+	/**
+	 * Make new iterable which is reverse ordered
 	 * @return
 	 */
 	public CuteIterable<A> reverse() {
@@ -133,7 +107,7 @@ public class CuteIterable<A> implements Iterable<A> {
 	}
 	
 	/**
-	 * returns a new itarable which is sorted using comparator
+	 * Make new itarable which is sorted with given comparator
 	 * @return
 	 */
 	public CuteIterable<A> sort(Comparator<A> comparator) {
@@ -153,12 +127,6 @@ public class CuteIterable<A> implements Iterable<A> {
 		return acc;
 	}
 
-	/**
-	 * Concatinates two iterables into one
-	 */
-	public CuteIterable<A> concat(Iterable<A> tail) {
-		return new CuteIterable<A>(new ConcatIterator<A>(iterator(), tail.iterator()));
-	}
 	
 	/**
 	 * skip null

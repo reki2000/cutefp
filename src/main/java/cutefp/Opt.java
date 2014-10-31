@@ -14,14 +14,14 @@ public abstract class Opt<A> extends CuteIterable<A> {
 	abstract public boolean isSome();
 	abstract public boolean isNone();
 	abstract public A get();
-	abstract public A getOrElse(A alt);
+	abstract public A orElse(A alt);
 
 	public static <A> Opt<A> none() { 
 		return new Opt<A>(Collections.<A>emptyList()) {
 			public boolean isSome() { return false; }
 			public boolean isNone() { return true; }
 			public A get() { throw new NoSuchElementException(); }
-			public A getOrElse(A alt) { return alt; }
+			public A orElse(A alt) { return alt; }
 		};
 	}
 	
@@ -32,7 +32,7 @@ public abstract class Opt<A> extends CuteIterable<A> {
 			public boolean isSome() { return true; }
 			public boolean isNone() { return false; }
 			public A get() { return iterator().next(); }
-			public A getOrElse(A alt) { return iterator().next(); }
+			public A orElse(A alt) { return iterator().next(); }
 		};
 	};
 }

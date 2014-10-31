@@ -1,44 +1,26 @@
-package cutefp.impl;
+package cutefp.iterator;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
-public class FlattenIterator<B> implements Iterator<B> {
+public class FlattenIterator<B> extends BaseIterator<Iterable<B>,B> {
 	
 	public FlattenIterator(Iterator<Iterable<B>> parent) {
-		this.parent = parent;
+		super(parent);
 	}
-	private final Iterator<Iterable<B>> parent;
 	private Iterator<B> child;
-	private boolean isChildReady = false;
 	
 	@Override
-	public boolean hasNext() {
-		if (isChildReady && child.hasNext()) {
-			return true;
+	public boolean checkNext() {
+		if (child != null && child.hasNext()) {
+			return foundNext(child.next());
 		}
 		
-		while (parent.hasNext()) {
-			child = parent.next().iterator();
+		while (pickable()) {
+			child = pick().iterator();
 			if (child.hasNext()) {
-				isChildReady = true;
-				return true;
+				return foundNext(child.next());
 			}
 		}
 		return false;
 	}
-
-	@Override
-	public B next() {
-		if (!hasNext()) {
-			throw new NoSuchElementException();
-		}
-		return child.next();
-	}
-	
-	@Override
-	public void remove() {
-		child.remove();
-	}
-	
 }

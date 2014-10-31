@@ -1,47 +1,27 @@
-package cutefp.impl;
+package cutefp.iterator;
 
 import java.util.Iterator;
 
-public class ConcatIterator<B> implements Iterator<B> {
+public class ConcatIterator<B> extends BaseIterator<B,B> {
 	
 	public ConcatIterator(Iterator<B> head, Iterator<B> tail) {
-		this.head = head;
+		super(head);
 		this.tail = tail;
 	}
 	final Iterator<B> tail;
-	final Iterator<B> head;
-	
 	private boolean useTail = false;
 	
 	@Override
-	public boolean hasNext() {
-		if (useTail) {
-			return tail.hasNext();
-		} else {
-			if (head.hasNext()) {
-				return true;
+	public boolean checkNext() {
+		if (!useTail) {
+			if (pickable()) {
+				return foundNext(pick());
 			}
 			useTail = true;
-			return tail.hasNext();
 		}
-	}
-
-	@Override
-	public B next() {
-		if (useTail) {
-			return tail.next();
-		} else {
-			return head.next();
+		if (tail.hasNext()) {
+			return foundNext(tail.next());
 		}
+		return false;
 	}
-	
-	@Override
-	public void remove() {
-		if (useTail) {
-			tail.remove();
-		} else {
-			head.remove();
-		}
-	}
-	
 }

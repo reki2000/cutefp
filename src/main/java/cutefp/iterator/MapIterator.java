@@ -1,31 +1,22 @@
-package cutefp.impl;
+package cutefp.iterator;
 
 import java.util.Iterator;
 
 import cutefp.func.F;
 
-public class MapIterator<A,B> implements Iterator<B> {
+public class MapIterator<A,B> extends BaseIterator<A,B> {
 	
 	public MapIterator(Iterator<A> p, F<A, B> f) {
-		this.p = p;
+		super(p);
 		this.f = f;
 	}
 	final F<A, B> f;
-	final Iterator<A> p;
 
 	@Override
-	public boolean hasNext() {
-		return p.hasNext();
+	public boolean checkNext() {
+		if(pickable()) {
+			return foundNext(f.apply(pick()));
+		}
+		return false;
 	}
-
-	@Override
-	public B next() {
-		return f.apply(p.next());
-	}
-	
-	@Override
-	public void remove() {
-		p.remove();
-	}
-
 }
