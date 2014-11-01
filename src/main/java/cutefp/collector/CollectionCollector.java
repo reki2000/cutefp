@@ -16,6 +16,15 @@ public class CollectionCollector {
 	 * 
 	 * @return
 	 */
+	public static <A> A[] toArray(Iterable<A> iter) {
+		return (A[])toList(iter).toArray();
+	}
+
+
+	/**
+	 * 
+	 * @return
+	 */
 	public static <A> List<A> toList(Iterable<A> iter) {
 		List<A> l = new ArrayList<A>();
 		for (A item : iter) {
