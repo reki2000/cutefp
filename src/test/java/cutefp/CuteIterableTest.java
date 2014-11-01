@@ -2,7 +2,7 @@ package cutefp;
 
 import static cutefp.Cutes.from;
 import static cutefp.Cutes.fromArray;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
@@ -119,4 +119,30 @@ public class CuteIterableTest {
 		assertThat(names.get(2), is(3));
 	}
 
+	@Test
+	public void simple_take() {
+		List<Integer> result = fromArray(1, null, null, 4).take(2).toList();
+
+		assertThat(result.size(), is(2));
+		assertThat(result.get(0), is(1));
+		assertThat(result.get(1), is(nullValue()));
+	}
+
+	@Test
+	public void take_2args() {
+		List<Integer> result = fromArray(1, null, null, 4).take(3,2).toList();
+
+		assertThat(result.size(), is(2));
+		assertThat(result.get(0), is(nullValue()));
+		assertThat(result.get(1), is(4));
+	}
+
+	@Test
+	public void drop() {
+		List<Integer> result = fromArray(1, null, null, 4).drop(2).toList();
+
+		assertThat(result.size(), is(2));
+		assertThat(result.get(0), is(nullValue()));
+		assertThat(result.get(1), is(4));
+	}
 }

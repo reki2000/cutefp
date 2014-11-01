@@ -12,6 +12,7 @@ import cutefp.func.F;
 import cutefp.func.F2;
 import cutefp.func.Predicate;
 import cutefp.iterator.ConcatIterator;
+import cutefp.iterator.RangeIterator;
 import cutefp.iterator.FilterIterator;
 import cutefp.iterator.FlatMapIterator;
 import cutefp.iterator.FlattenIterator;
@@ -94,6 +95,25 @@ public class CuteIterable<A> implements Iterable<A> {
 	 */
 	public CuteIterable<A> concat(Iterable<A> tail) {
 		return new CuteIterable<A>(new ConcatIterator<A>(iterator(), tail.iterator()));
+	}
+
+	/**
+	 * Make new iterable which has part of original iterable
+	 */
+	public CuteIterable<A> take(int count) {
+		return take(0, count);
+	}
+	public CuteIterable<A> drop(int count) {
+		return take(count, Integer.MAX_VALUE);
+	}
+	public CuteIterable<A> take(int start, int count) {
+		if (count < 0) {
+			throw new IllegalArgumentException("count should be positive or zero");
+		}
+		if (start < 0) {
+			throw new IllegalArgumentException("start should be positive or zero");
+		}
+		return new CuteIterable<A>(new RangeIterator<A>(iterator(), start, count));
 	}
 
 	/**
