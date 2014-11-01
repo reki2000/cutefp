@@ -1,19 +1,17 @@
 package cutefp;
 
 import static cutefp.Cutes.eq;
-import static cutefp.Cutes.from;
 import static cutefp.Cutes.fromArray;
 import static cutefp.Cutes.getter;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
 
-import cutefp.CuteIterableTest.User;
 import cutefp.func.F;
 import cutefp.func.Predicate;
 
@@ -50,9 +48,7 @@ public class CutesTest {
 		
 		List<String> names = fromArray(users).map(nameGetter).toList();
 
-		assertThat(names.size(), is(2));
-		assertThat(names.get(0), is("Steve"));
-		assertThat(names.get(1), is("Bill"));
+		assertThat(names, contains("Steve", "Bill"));
 	}
 
 	@Test

@@ -2,7 +2,7 @@ package cutefp;
 
 import static cutefp.Cutes.from;
 import static cutefp.Cutes.fromArray;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
@@ -47,9 +47,7 @@ public class CuteIterableTest {
 
 		List<String> names = fromArray(users).map(nameGetter).toList();
 
-		assertThat(names.size(), is(2));
-		assertThat(names.get(0), is("Steve"));
-		assertThat(names.get(1), is("Bill"));
+		assertThat(names, contains("Steve", "Bill"));
 	}
 
 	@Test
@@ -60,11 +58,7 @@ public class CuteIterableTest {
 
 		List<String> names = users.flatMap(nameListGetter).map(toUpper).toList();
 
-		assertThat(names.size(), is(4));
-		assertThat(names.get(0), is("STEVE"));
-		assertThat(names.get(1), is("JOBS"));
-		assertThat(names.get(2), is("BILL"));
-		assertThat(names.get(3), is("GATES"));
+		assertThat(names, contains("STEVE", "JOBS", "BILL", "GATES"));
 	}
 
 	@Test
@@ -74,10 +68,7 @@ public class CuteIterableTest {
 
 		List<Integer> names = fromArray(head).concat(fromArray(tail)).toList();
 
-		assertThat(names.size(), is(6));
-		assertThat(names.get(0), is(1));
-		assertThat(names.get(2), is(3));
-		assertThat(names.get(3), is(4));
+		assertThat(names, contains(1,2,3,4,5,6));
 	}
 
 
@@ -91,10 +82,7 @@ public class CuteIterableTest {
 		CuteIterable<Integer> flatten = from(nest).flatten();
 		List<Integer> names = flatten.toList();
 
-		assertThat(names.size(), is(4));
-		assertThat(names.get(0), is(1));
-		assertThat(names.get(1), is(2));
-		assertThat(names.get(2), is(3));
+		assertThat(names, contains(1,2,3,4));
 	}
 	
 	@Test
@@ -103,9 +91,7 @@ public class CuteIterableTest {
 
 		List<Integer> names = fromArray(head).skipNull().toList();
 
-		assertThat(names.size(), is(2));
-		assertThat(names.get(0), is(1));
-		assertThat(names.get(1), is(3));
+		assertThat(names, contains(1,3));
 	}
 
 	@Test
@@ -114,37 +100,28 @@ public class CuteIterableTest {
 
 		List<Integer> names = fromArray(head).alterNull(5).toList();
 
-		assertThat(names.size(), is(3));
-		assertThat(names.get(0), is(1));
-		assertThat(names.get(1), is(5));
-		assertThat(names.get(2), is(3));
+		assertThat(names, contains(1,5,3));
 	}
 
 	@Test
 	public void simple_take() {
 		List<Integer> result = fromArray(1, null, null, 4).take(2).toList();
 
-		assertThat(result.size(), is(2));
-		assertThat(result.get(0), is(1));
-		assertThat(result.get(1), is(nullValue()));
+		assertThat(result, contains(1,null));
 	}
 
 	@Test
 	public void take_2args() {
 		List<Integer> result = fromArray(1, null, null, 4).take(3,2).toList();
 
-		assertThat(result.size(), is(2));
-		assertThat(result.get(0), is(nullValue()));
-		assertThat(result.get(1), is(4));
+		assertThat(result, contains(null, 4));
 	}
 
 	@Test
 	public void drop() {
 		List<Integer> result = fromArray(1, null, null, 4).drop(2).toList();
 
-		assertThat(result.size(), is(2));
-		assertThat(result.get(0), is(nullValue()));
-		assertThat(result.get(1), is(4));
+		assertThat(result, contains(2, null, 4));
 	}
 
 	@Test
