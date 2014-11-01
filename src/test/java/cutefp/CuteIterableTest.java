@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import cutefp.CuteIterable;
 import cutefp.func.F;
+import cutefp.func.Predicate;
 
 public class CuteIterableTest {
 	
@@ -144,5 +145,28 @@ public class CuteIterableTest {
 		assertThat(result.size(), is(2));
 		assertThat(result.get(0), is(nullValue()));
 		assertThat(result.get(1), is(4));
+	}
+
+	@Test
+	public void toArray() {
+		Integer[] result = fromArray(1, null, null, 4).drop(2).toArray();
+
+		assertThat(result.length, is(2));
+		assertThat(result[0], is(nullValue()));
+		assertThat(result[1], is(4));
+	}
+
+	@Test
+	public void any() {
+		Predicate<Integer> is2 = Cutes.same(2);
+		assertThat(fromArray(1, null, null, 4).any(is2), is(false));
+		assertThat(fromArray(1, null, 2, 3, 4).any(is2), is(true));
+	}
+	@Test
+
+	public void all() {
+		Predicate<Integer> is2 = Cutes.same(2);
+		assertThat(fromArray(1, null, null, 4).all(is2), is(false));
+		assertThat(fromArray(2, 2,    2, 2, 2).all(is2), is(true));
 	}
 }

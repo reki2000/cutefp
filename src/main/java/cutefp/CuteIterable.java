@@ -21,23 +21,27 @@ import cutefp.iterator.MapIterator;
 public class CuteIterable<A> implements Iterable<A> {
 	
 	protected CuteIterable(Iterable<A> i) {
-		this.iterable = i;
+		this.iterator = i.iterator();
 	}
 	private CuteIterable(Iterator<A> i) {
 		this.iterator = i;
 	}
-	Iterator<A> iterator = null;
-	Iterable<A> iterable = null;
+	private Iterator<A> iterator = null;
 
 	@Override
 	public Iterator<A> iterator() {
-		if (iterable != null) {
-			return iterable.iterator();
-		} else {
-			return iterator;
-		}
+		return iterator;
 	}
 	
+	/**
+	 * Converter to standard collection class
+	 * @return
+	 */
+	
+	public A[] toArray() {
+		return CollectionCollector.<A>toArray(this);
+	}
+
 	public List<A> toList() {
 		return CollectionCollector.<A>toList(this);
 	}
@@ -145,6 +149,30 @@ public class CuteIterable<A> implements Iterable<A> {
 			acc = f.apply(item, acc);
 		}
 		return acc;
+	}
+	
+	/**
+	 * any
+	 */
+	public boolean any(Predicate<A> pred) {
+		for (A item : this) {
+			if (pred.apply(item)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * all
+	 */
+	public boolean all(Predicate<A> pred) {
+		for (A item : this) {
+			if (!pred.apply(item)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	
