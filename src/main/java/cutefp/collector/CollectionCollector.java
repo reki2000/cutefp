@@ -1,5 +1,6 @@
 package cutefp.collector;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,8 +17,13 @@ public class CollectionCollector {
 	 * 
 	 * @return
 	 */
-	public static <A> A[] toArray(Iterable<A> iter) {
-		return (A[])toList(iter).toArray();
+	public static <A> A[] toArray(Iterable<A> iter, Class<A> clazz) {
+		List<A> list = toList(iter);
+		A[] objs = (A[])Array.newInstance(clazz, list.size());
+		for (int i=0; i<list.size(); i++) {
+			objs[i] = list.get(i);
+		}
+		return objs;
 	}
 
 

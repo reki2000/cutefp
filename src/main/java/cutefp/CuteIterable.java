@@ -9,28 +9,34 @@ import java.util.Set;
 
 import cutefp.collector.CollectionCollector;
 import cutefp.func.F;
-import cutefp.func.F2;
 import cutefp.func.Predicate;
+import cutefp.func.T2;
+import static cutefp.func.T2.t2;
 import cutefp.iterator.ConcatIterator;
-import cutefp.iterator.RangeIterator;
 import cutefp.iterator.FilterIterator;
 import cutefp.iterator.FlatMapIterator;
 import cutefp.iterator.FlattenIterator;
 import cutefp.iterator.MapIterator;
+import cutefp.iterator.RangeIterator;
 
 public class CuteIterable<A> implements Iterable<A> {
 	
 	protected CuteIterable(Iterable<A> i) {
-		this.iterator = i.iterator();
+		this.iterable = i;
 	}
+	// only for internal use
 	private CuteIterable(Iterator<A> i) {
 		this.iterator = i;
 	}
+	private Iterable<A> iterable = null;
 	private Iterator<A> iterator = null;
 
 	@Override
 	public Iterator<A> iterator() {
-		return iterator;
+		if (this.iterable != null) {
+			return this.iterable.iterator();
+		}
+		return this.iterator;
 	}
 	
 	/**
@@ -38,8 +44,8 @@ public class CuteIterable<A> implements Iterable<A> {
 	 * @return
 	 */
 	
-	public A[] toArray() {
-		return CollectionCollector.<A>toArray(this);
+	public A[] toArray(Class<A> clazz) {
+		return CollectionCollector.<A>toArray(this, clazz);
 	}
 
 	public List<A> toList() {
@@ -108,15 +114,9 @@ public class CuteIterable<A> implements Iterable<A> {
 		return take(0, count);
 	}
 	public CuteIterable<A> drop(int count) {
-		return take(count, Integer.MAX_VALUE);
+		return take(count, Integer.MAX_VALUE - count);
 	}
 	public CuteIterable<A> take(int start, int count) {
-		if (count < 0) {
-			throw new IllegalArgumentException("count should be positive or zero");
-		}
-		if (start < 0) {
-			throw new IllegalArgumentException("start should be positive or zero");
-		}
 		return new CuteIterable<A>(new RangeIterator<A>(iterator(), start, count));
 	}
 
@@ -143,10 +143,10 @@ public class CuteIterable<A> implements Iterable<A> {
 	/**
 	 * @return
 	 */
-	public <B> B fold(B init, final F2<A,B,B> f) {
+	public <B> B fold(B init, final F<T2<A,B>,B> f) {
 		B acc = init;
 		for (A item : this) {
-			acc = f.apply(item, acc);
+			acc = f.apply(t2(item, acc));
 		}
 		return acc;
 	}

@@ -112,24 +112,32 @@ public class CuteIterableTest {
 
 	@Test
 	public void take_2args() {
-		List<Integer> result = fromArray(1, null, null, 4).take(3,2).toList();
-
-		assertThat(result, contains(null, 4));
+		List<Integer> result = fromArray(1, 2, null, 4, 5, 6).take(3,2).toList();
+		assertThat(result, contains(4, 5));
 	}
 
 	@Test
-	public void drop() {
-		List<Integer> result = fromArray(1, null, null, 4).drop(2).toList();
-
+	public void drop_zero() {
+		List<Integer> result = fromArray(1, 2, null, 4).drop(0).toList();
+		assertThat(result, contains(1, 2, null, 4));
+	}
+	@Test
+	public void drop_one() {
+		List<Integer> result = fromArray(1, 2, null, 4).drop(1).toList();
 		assertThat(result, contains(2, null, 4));
+	}
+	@Test
+	public void drop_over() {
+		List<Integer> result = fromArray(1, 2, null, 4).drop(10).toList();
+		assertThat(result, empty());
 	}
 
 	@Test
 	public void toArray() {
-		Integer[] result = fromArray(1, null, null, 4).drop(2).toArray();
+		Integer[] result = fromArray(3, 4).toArray(Integer.class);
 
 		assertThat(result.length, is(2));
-		assertThat(result[0], is(nullValue()));
+		assertThat(result[0], is(3));
 		assertThat(result[1], is(4));
 	}
 
